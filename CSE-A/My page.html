@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Somika Dandu | Personal Portfolio</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #fae8ff 50%, #fce7f3 100%);
+      --card-bg: rgba(255, 255, 255, 0.82);
+      --card-border: rgba(255, 255, 255, 0.95);
+      --primary-blue: #38bdf8;
+      --deep-blue: #0284c7;
+      --accent-pink: #f472b6;
+      --deep-pink: #db2777;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --shadow: 0 20px 40px rgba(244, 114, 182, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 30px 20px;
+      overflow-x: hidden;
+      position: relative;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Floating Canvas Sparks */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* Floating Background Elements */
+    body::before, body::after {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      animation: float 8s infinite alternate ease-in-out;
+    }
+    body::before { background: #bae6fd; top: 10%; left: 10%; }
+    body::after { background: #fbcfe8; bottom: 10%; right: 10%; animation-delay: -4s; }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-30px) scale(1.1); }
+    }
+
+    /* Dark Mode Theme */
+    body.dark-theme {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #31102f 100%);
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-dark: #f8fafc;
+      --text-muted: #cbd5e1;
+    }
+
+    .portfolio-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      width: 100%;
+      max-width: 680px;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--card-border);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Top Controls */
+    .top-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--deep-blue);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .theme-btn {
+      background: rgba(255, 255, 255, 0.8);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-dark);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .profile-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-blue), var(--accent-pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin: 0 auto 12px;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, var(--deep-blue), var(--deep-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .typing-container {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--deep-pink);
+      min-height: 24px;
+    }
+
+    /* Tab Navigation */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0 25px;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 6px;
+      border-radius: 30px;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--deep-pink);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    body.dark-theme .info-card {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .info-card h2 {
+      font-size: 1.1rem;
+      color: var(--deep-blue);
+      margin-bottom: 12px;
+    }
+
+    /* Interactive Art Canvas Feature */
+    .art-board-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    #mini-canvas {
+      background: white;
+      border-radius: 12px;
+      border: 1px dashed var(--accent-pink);
+      cursor: crosshair;
+    }
+    .canvas-tools {
+      display: flex;
+      gap: 8px;
+    }
+    .color-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+
+    /* Interactive Skill Progress Bars */
+    .skill-bar-item { margin-bottom: 12px; }
+    .skill-info { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 4px; font-size: 0.9rem; }
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-blue), var(--accent-pink));
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Creative Showcase Switcher */
+    .hobby-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .hobby-btn {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--accent-pink);
+      background: transparent;
+      color: var(--text-dark);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .hobby-btn.active {
+      background: var(--accent-pink);
+      color: white;
+    }
+    .creative-display {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    body.dark-theme .creative-display { background: rgba(15, 23, 42, 0.5); }
+
+    .action-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--primary-blue), var(--accent-pink));
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(244, 114, 182, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .action-btn:hover { opacity: 0.95; transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <canvas id="sparkle-canvas"></canvas>
+
+  <div class="portfolio-card">
+    <div class="top-controls">
+      <div class="status-badge"><span class="status-dot"></span> Open to IT Opportunities</div>
+      <button class="theme-btn" onclick="toggleTheme()">🌙 Night Mode</button>
+    </div>
+
+    <header>
+      <div class="profile-avatar">S</div>
+      <h1>Somika Dandu</h1>
+      <p>📍 Tirupati, India | Student & Developer</p>
+      <div class="typing-container"><span id="typed-text"></span></div>
+    </header>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('about')">About</button>
+      <button class="tab-btn" onclick="switchTab('skills')">Skills</button>
+      <button class="tab-btn" onclick="switchTab('creative')">Creative Corner</button>
+      <button class="tab-btn" onclick="switchTab('canvas')">Art Pad</button>
+    </div>
+
+    <!-- About Tab -->
+    <div id="about" class="tab-content active">
+      <div class="info-card">
+        <h2>🚀 Career Objective</h2>
+        <p>Aspirations to build an impactful career in the IT industry by pairing modern software engineering skills with creative design.</p>
+      </div>
+
+      <div class="info-card">
+        <h2>🎓 Education</h2>
+        <p><strong>B.Tech:</strong> Malla Reddy University <em>(Pursuing)</em></p>
+        <p style="margin-top: 6px;"><strong>Intermediate:</strong> Viswasai Junior College</p>
+      </div>
+    </div>
+
+    <!-- Skills Tab -->
+    <div id="skills" class="tab-content">
+      <div class="info-card">
+        <h2>💻 Technical Skills</h2>
+        <div class="skill-bar-item">
+          <div class="skill-info"><span>🌐 HTML5 & Styling</span><span>85%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="skill-bar-item">
+          <div class="skill-info"><span>🐍 Python</span><span>75%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width: 75%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Creative Corner Tab -->
+    <div id="creative" class="tab-content">
+      <div class="info-card">
+        <h2>✨ Hobbies & Interests</h2>
+        <div class="hobby-selector">
+          <button class="hobby-btn active" onclick="selectHobby('cooking', this)">🍳 Cooking</button>
+          <button class="hobby-btn" onclick="selectHobby('drawing', this)">✏️ Drawing</button>
+          <button class="hobby-btn" onclick="selectHobby('painting', this)">🎨 Painting</button>
+        </div>
+        <div class="creative-display" id="creative-text">
+          Loves experimenting with new recipes and cooking delicious treats!
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW FEATURE: Interactive Mini Doodle Pad -->
+    <div id="canvas" class="tab-content">
+      <div class="info-card">
+        <h2>🎨 Interactive Art Doodle Pad</h2>
+        <div class="art-board-container">
+          <canvas id="mini-canvas" width="300" height="150"></canvas>
+          <div class="canvas-tools">
+            <div class="color-dot" style="background:#db2777;" onclick="setPenColor('#db2777')"></div>
+            <div class="color-dot" style="background:#38bdf8;" onclick="setPenColor('#38bdf8')"></div>
+            <div class="color-dot" style="background:#22c55e;" onclick="setPenColor('#22c55e')"></div>
+            <button class="theme-btn" onclick="clearCanvas()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-group">
+      <button class="action-btn" onclick="copyContactInfo()">📋 Copy Email</button>
+      <button class="action-btn" style="background: white; color: var(--deep-pink); border: 1px solid var(--accent-pink);" onclick="triggerSparkles()">✨ Sparkle Effect</button>
+    </div>
+  </div>
+
+  <script>
+    // Mouse Trail Sparkles Effect
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      particles.push({
+        x: e.clientX,
+        y: e.clientY,
+        size: Math.random() * 5 + 2,
+        color: Math.random() > 0.5 ? '#f472b6' : '#38bdf8',
+        life: 1
+      });
+    });
+
+    function renderSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.life -= 0.02;
+        p.y += 0.5;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(p.life, 0);
+        ctx.fill();
+        if (p.life <= 0) particles.splice(i, 1);
+      });
+      requestAnimationFrame(renderSparkles);
+    }
+    renderSparkles();
+
+    function triggerSparkles() {
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: window.innerWidth / 2 + (Math.random() - 0.5) * 200,
+          y: window.innerHeight / 2 + (Math.random() - 0.5) * 200,
+          size: Math.random() * 6 + 3,
+          color: Math.random() > 0.5 ? '#f472b6' : '#38bdf8',
+          life: 1
+        });
+      }
+    }
+
+    // Mini Drawing Board Functionality
+    const miniCanvas = document.getElementById('mini-canvas');
+    const mCtx = miniCanvas.getContext('2d');
+    let isDrawing = false;
+    let penColor = '#db2777';
+
+    mCtx.lineWidth = 3;
+    mCtx.lineCap = 'round';
+
+    miniCanvas.addEventListener('mousedown', (e) => { isDrawing = true; mCtx.beginPath(); mCtx.moveTo(e.offsetX, e.offsetY); });
+    miniCanvas.addEventListener('mousemove', (e) => {
+      if (isDrawing) {
+        mCtx.strokeStyle = penColor;
+        mCtx.lineTo(e.offsetX, e.offsetY);
+        mCtx.stroke();
+      }
+    });
+    miniCanvas.addEventListener('mouseup', () => isDrawing = false);
+
+    function setPenColor(color) { penColor = color; }
+    function clearCanvas() { mCtx.clearRect(0, 0, miniCanvas.width, miniCanvas.height); }
+
+    // Theme Switcher Feature
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      const btn = document.querySelector('.theme-btn');
+      btn.innerText = document.body.classList.contains('dark-theme') ? "☀️ Day Mode" : "🌙 Night Mode";
+    }
+
+    // Typing Effect Feature
+    const phrases = ["B.Tech Student", "Python Enthusiast", "Creative Artist"];
+    let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+    function typeLoop() {
+      const current = phrases[phraseIdx];
+      const target = document.getElementById('typed-text');
+      target.innerText = isDeleting ? current.substring(0, charIdx--) : current.substring(0, charIdx++);
+
+      if (!isDeleting && charIdx === current.length + 1) {
+        isDeleting = true;
+        setTimeout(typeLoop, 1500);
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        setTimeout(typeLoop, 500);
+      } else {
+        setTimeout(typeLoop, isDeleting ? 50 : 100);
+      }
+    }
+    typeLoop();
+
+    // Tab Navigation
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Hobby Selector
+    const hobbyData = {
+      cooking: "Loves experimenting with new recipes and cooking delicious treats!",
+      drawing: "Enjoys sketching concepts and creating original line art!",
+      painting: "Expresses thoughts and ideas using vibrant color palettes!"
+    };
+
+    function selectHobby(key, btn) {
+      document.querySelectorAll('.hobby-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('creative-text').innerText = hobbyData[key];
+    }
+
+    // Copy Email
+    function copyContactInfo() {
+      navigator.clipboard.writeText("somikadandu@gmail.com");
+      alert("Email copied to clipboard!");
+    }
+  </script>
+
+</body>
+</html>
